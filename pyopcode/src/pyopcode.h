@@ -1,12 +1,8 @@
 #pragma once
 
-#include <iostream>
-#include <vector>
-
-#include "Opcode/Opcode.h"
+#include "opcode/Opcode.h"
 
 #include "exception.cpp"
-#include "typedefs.cpp"
 #include "numpy_boost/ndarray.cpp"
 
 
@@ -28,22 +24,21 @@ public:
     }
 
     Opcode::Model build() const {
-        Opcode::OPCODECREATE OPCC;
-        // Surface data
+        // FIXME: no idea who is responsible for the lifetime of this object...
         Opcode::MeshInterface* opcMeshAccess = new Opcode::MeshInterface();
         opcMeshAccess->SetNbTriangles(triangles.size());
         opcMeshAccess->SetNbVertices(vertices.size());
-
         opcMeshAccess->SetPointers(
             triangles.view<IceMaths::IndexedTriangle>().data(),
-            vertices.view <IceMaths::Point          >().data()
+            vertices .view<IceMaths::Point          >().data()
         );
 
         //Tree building settings
+        Opcode::OPCODECREATE OPCC;
         OPCC.mIMesh = opcMeshAccess;
-        OPCC.mNoLeaf = TRUE;
-        OPCC.mQuantized = FALSE;
-        OPCC.mKeepOriginal = FALSE;
+        OPCC.mNoLeaf = true;
+        OPCC.mQuantized = false;
+        OPCC.mKeepOriginal = false;
 
         Opcode::Model model;
         model.Build(OPCC);
