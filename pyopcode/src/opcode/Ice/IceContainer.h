@@ -12,7 +12,7 @@
 #ifndef __ICECONTAINER_H__
 #define __ICECONTAINER_H__
 
-	#define CONTAINER_STATS
+//	#define CONTAINER_STATS
 
 	enum FindMode
 	{

@@ -2,11 +2,12 @@
 boost python interface definition
 */
 
+#pragma warning(default : 4005)
+
+
 #define BOOST_DISABLE_ASSERTS
 #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
 
-#define BAN_OPCODE_AUTOLINK
-#define ICE_NO_DLL
 
 #include <boost/python.hpp>
 
