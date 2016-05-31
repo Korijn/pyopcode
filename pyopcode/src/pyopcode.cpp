@@ -82,18 +82,11 @@ public:
 
         // wrap resulting pairs in numpy array
 		const bool Status (TC.GetContactStatus());
-		if (Status > 0) {
-            ndarray<IceCore::Pair> pairs = ndarray_from_range(
-                boost::make_iterator_range(
-                    TC.GetPairs(),
-                    TC.GetPairs() + TC.GetNbPairs()
-                )
-            );
-		}
-		else {
-		    ndarray<IceCore::Pair> pairs({0});
-		}
-		return pairs.unview<index_t>();
+		boost::iterator_range<IceCore::Pair*> pairs = (Status > 0) ?
+            boost::make_iterator_range(TC.GetPairs(), TC.GetPairs() + TC.GetNbPairs()) :
+            boost::make_iterator_range(0, 0);
+
+		return ndarray_from_range(pairs).unview<index_t>();
     }
 
 };
