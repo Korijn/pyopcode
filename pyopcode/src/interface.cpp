@@ -3,17 +3,16 @@ boost python interface definition
 */
 
 #define BOOST_DISABLE_ASSERTS
-#define BOOST_PYTHON_STATIC_LIB
 #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
 
 #define BAN_OPCODE_AUTOLINK
 #define ICE_NO_DLL
 
-
 #include <boost/python.hpp>
-#include "exception.h"
-#include "typedefs.h"
-#include "pyopcode.h"
+
+#include "exception.cpp"
+#include "typedefs.cpp"
+#include "pyopcode.cpp"
 
 using namespace boost;
 
@@ -28,9 +27,6 @@ typedef Mesh<real_t, index_t> mesh_t;
 using namespace boost::python;
 BOOST_PYTHON_MODULE(pyopcode)
 {
-    // init GIL control
-    PyEval_InitThreads();
-
 	// initialize numpy support
 	init_numpy();
 	

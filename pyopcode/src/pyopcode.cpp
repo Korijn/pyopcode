@@ -12,9 +12,12 @@ class Mesh {
 public:
     const ndarray<real_t, 2> vertices;
     const ndarray<index_t, 2> triangles;
+//	const Opcode::Model model;
 
     Mesh(const ndarray<real_t, 2> vertices, const ndarray<index_t, 2> triangles) :
-        vertices(vertices), triangles(triangles)
+        vertices(vertices),
+        triangles(triangles)
+        //model(init_model())
     {
         if (vertices.shape()[1] != 3)
             throw python_exception("vertices needs to be an [n, 3] array");

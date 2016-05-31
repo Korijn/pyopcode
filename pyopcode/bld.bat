@@ -1,6 +1,6 @@
 
 rmdir /S /Q build
-
+del pyopcode.pyd
 
 set PY_VER=3.5
 set ARCH=64
@@ -34,6 +34,7 @@ cmake ../src -G"%GENERATOR_NAME%" ^
 	-DNUMPY_INCLUDE_DIR:PATH="%SP_DIR%/numpy/core/include" ^
     -DBOOST_ROOT:PATH="%CENV%/Library"
 
+
 cd..
 
 cmake --build ./build --clean-first --target ALL_BUILD --config %BUILD_CONFIG%
@@ -41,6 +42,8 @@ cmake --build ./build --clean-first --target ALL_BUILD --config %BUILD_CONFIG%
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 
-REM copy .\release\pyopcode.pyd .
+copy .\build\release\pyopcode.pyd .
+
+rmdir /S /Q build
 
 REM python .\pyopcode\test.py
