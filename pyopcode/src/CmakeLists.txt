@@ -1,0 +1,24 @@
+cmake_minimum_required (VERSION 3.5)
+project (pyopcode)
+
+set(Boost_USE_STATIC_LIBS OFF)
+set(Boost_USE_MULTITHREADED ON)
+find_package(Boost REQUIRED COMPONENTS python)
+
+
+include_directories(${PYTHON_INCLUDE_DIR})
+include_directories(${NUMPY_INCLUDE_DIR})
+include_directories(${EIGEN_INCLUDE_DIR})
+include_directories(${Boost_INCLUDE_DIR})
+
+
+LINK_DIRECTORIES(${PYTHON_LIBRARY})
+LINK_DIRECTORIES(${Boost_LIBRARIES})
+
+
+ADD_LIBRARY(pyopcode MODULE interface.cpp )
+SET_TARGET_PROPERTIES(pyopcode PROPERTIES SUFFIX ".pyd")
+TARGET_LINK_LIBRARIES(pyopcode
+    ${Boost_LIBRARIES}
+    ${PYTHON_LIBRARY}
+    )
