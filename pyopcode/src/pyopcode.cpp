@@ -1,17 +1,15 @@
 #pragma once
 
-#include "opcode/StdAfx.cpp"
-#include "opcode/Opcode.h"
-//#include "opcode/OPC_Model.cpp"
-//#include "opcode/OPC_MeshInterface.h"
+#include <boost/range/iterator_range.hpp>
 
 #include "exception.cpp"
 #include "numpy_boost/ndarray.cpp"
+#include "opcode/Opcode.h"
 
 
 template<typename real_t, typename index_t>
 class MeshModel {
-    /* simple wrapper class for vertices and triangles */
+    /* simple wrapper class for vertices and triangles, and corresponding opcode-model */
 public:
     const ndarray<real_t, 2>    vertices;
     const ndarray<index_t, 2>   triangles;
@@ -25,6 +23,7 @@ public:
         model       (init_model())
     {}
 
+private:
     Opcode::MeshInterface init_interface() const {
         Opcode::MeshInterface interface;
         interface.SetNbTriangles(triangles.size());
@@ -40,7 +39,7 @@ public:
     Opcode::Model init_model() const {
         //Tree building settings
         Opcode::OPCODECREATE OPCC;
-        OPCC.mIMesh = interface;
+        OPCC.mIMesh = &interface;
         OPCC.mNoLeaf = true;
         OPCC.mQuantized = false;
         OPCC.mKeepOriginal = false;
@@ -65,31 +64,36 @@ public:
         mesh0(mesh0), mesh1(mesh1),
     {}
 
-    int query(const affine_t affine0, const affine_t affine1) const {
-
+    ndarray<index_t, 2> query(const affine_t affine0, const affine_t affine1) const {
+        // helper object to pass arguments to collision query
 		Opcode::BVTCache ColCache;
 		ColCache.Model0 = &mesh0.model;
 		ColCache.Model1 = &mesh1.model;
 
 		// Collision query
     	Opcode::AABBTreeCollider TC;
-		const bool IsOk(TC.Collide(ColCache, (IceMaths::Matrix4x4*)affine0.data(), (IceMaths::Matrix4x4*)affine1.data()));
+		const bool IsOk(
+		    TC.Collide(
+		        ColCache,
+		        (IceMaths::Matrix4x4*)affine0.data(),
+		        (IceMaths::Matrix4x4*)affine1.data()
+		    )
+		);
 
-		// Get collision status => if true, objects overlap
+        // wrap resulting pairs in numpy array
 		const bool Status (TC.GetContactStatus());
-
-		int NbPairs; //number of colliding pairs
-
 		if (Status > 0) {
-			// Number of colliding pairs and list of pairs
-			NbPairs = TC.GetNbPairs();
-//			p = TC.GetPairs();
+            ndarray<IceCore::Pair> pairs = ndarray_from_range(
+                boost::make_iterator_range(
+                    TC.GetPairs(),
+                    TC.GetPairs() + TC.GetNbPairs()
+                )
+            );
 		}
 		else {
-			NbPairs = 0;
-			//printf("not colliding\n");
+		    ndarray<IceCore::Pair> pairs({0});
 		}
-		return NbPairs;
+		return pairs.unview<index_t>();
     }
 
 };
