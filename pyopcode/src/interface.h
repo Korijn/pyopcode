@@ -3,11 +3,14 @@ boost python interface definition
 */
 
 #define BOOST_DISABLE_ASSERTS
+#define BOOST_PYTHON_STATIC_LIB
 #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
+
 #define BAN_OPCODE_AUTOLINK
 #define ICE_NO_DLL
 
 
+#include <boost/python.hpp>
 #include "exception.h"
 #include "typedefs.h"
 #include "pyopcode.h"
@@ -18,7 +21,7 @@ typedef float32_t   real_t;         // real type of coordinate space
 typedef int32_t     index_t;         // real type of coordinate space
 
 typedef Mesh<real_t, index_t> mesh_t;
-typedef MeshCollision<real_t, index_t> meshcollision_t;
+//typedef MeshCollision<real_t, index_t> meshcollision_t;
 
 
 
@@ -38,9 +41,9 @@ BOOST_PYTHON_MODULE(pyopcode)
     class_<mesh_t>("Mesh", init<ndarray<real_t, 2>, ndarray<index_t, 2>>())
 		;
 
-    class_<meshcollision_t>("MeshCollision", init<mesh_t, mesh_t>())
-        .def("query", &meshcollision_t::query)
-        ;
+//    class_<meshcollision_t>("MeshCollision", init<mesh_t, mesh_t>())
+//        .def("query", &meshcollision_t::query)
+//        ;
 
 	register_exception_translator<python_exception>(&translate);
 

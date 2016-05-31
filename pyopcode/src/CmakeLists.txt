@@ -6,19 +6,13 @@ set(Boost_USE_MULTITHREADED ON)
 find_package(Boost REQUIRED COMPONENTS python)
 
 
-addPath("C:/Users/Eelco/Dropbox/Git/pyopcode/pyopcode/src")
-addPath("C:/Users/Eelco/Dropbox/Git/pyopcode/pyopcode/src/Ice")
-
 include_directories(${PYTHON_INCLUDE_DIR})
 include_directories(${NUMPY_INCLUDE_DIR})
 include_directories(${EIGEN_INCLUDE_DIR})
 include_directories(${Boost_INCLUDE_DIR})
 
-
 LINK_DIRECTORIES(${PYTHON_LIBRARY})
 LINK_DIRECTORIES(${Boost_LIBRARIES})
-
-LINK_DIRECTORIES("C:/Users/Eelco/Dropbox/Git/pyopcode/pyopcode/src/Ice")
 
 
 ADD_LIBRARY(pyopcode MODULE interface.h )
