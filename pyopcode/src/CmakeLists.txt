@@ -5,6 +5,9 @@ set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_MULTITHREADED ON)
 find_package(Boost REQUIRED COMPONENTS python)
 
+file(GLOB OPCODE_SOURCE opcode/*.cpp)
+file(GLOB ICE_SOURCE opcode/Ice/*.cpp)
+
 
 include_directories(${PYTHON_INCLUDE_DIR})
 include_directories(${NUMPY_INCLUDE_DIR})
@@ -14,8 +17,12 @@ include_directories(${Boost_INCLUDE_DIR})
 LINK_DIRECTORIES(${PYTHON_LIBRARY})
 LINK_DIRECTORIES(${Boost_LIBRARIES})
 
+LINK_DIRECTORIES(opcode)
+LINK_DIRECTORIES(opcode/Ice)
 
-ADD_LIBRARY(pyopcode MODULE interface.cpp)
+
+
+ADD_LIBRARY(pyopcode MODULE interface.cpp ${OPCODE_CPP} ${ICE_CPP})
 SET_TARGET_PROPERTIES(pyopcode PROPERTIES SUFFIX ".pyd")
 TARGET_LINK_LIBRARIES(pyopcode
     ${Boost_LIBRARIES}

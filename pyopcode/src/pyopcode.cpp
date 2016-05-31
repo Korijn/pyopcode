@@ -1,6 +1,9 @@
 #pragma once
 
-//#include "opcode/Opcode.h"
+#include "opcode/StdAfx.cpp"
+#include "opcode/Opcode.h"
+//#include "opcode/OPC_Model.cpp"
+//#include "opcode/OPC_MeshInterface.h"
 
 #include "exception.cpp"
 #include "numpy_boost/ndarray.cpp"
@@ -12,12 +15,12 @@ class Mesh {
 public:
     const ndarray<real_t, 2> vertices;
     const ndarray<index_t, 2> triangles;
-//	const Opcode::Model model;
+	const Opcode::Model model;
 
     Mesh(const ndarray<real_t, 2> vertices, const ndarray<index_t, 2> triangles) :
-        vertices(vertices),
-        triangles(triangles)
-        //model(init_model())
+        vertices    (vertices),
+        triangles   (triangles),
+        model       (init_model())
     {
         if (vertices.shape()[1] != 3)
             throw python_exception("vertices needs to be an [n, 3] array");
@@ -25,8 +28,8 @@ public:
             throw python_exception("triangles needs to be an [n, 3] array");
     }
 
-//    Opcode::Model build() const {
-//        // FIXME: no idea who is responsible for the lifetime of this object...
+    Opcode::Model init_model() const {
+//        // FIXME: no idea who is responsible for the lifetime of this object... does OPCC destroy it?
 //        Opcode::MeshInterface* opcMeshAccess = new Opcode::MeshInterface();
 //        opcMeshAccess->SetNbTriangles(triangles.size());
 //        opcMeshAccess->SetNbVertices(vertices.size());
@@ -41,11 +44,11 @@ public:
 //        OPCC.mNoLeaf = true;
 //        OPCC.mQuantized = false;
 //        OPCC.mKeepOriginal = false;
-//
-//        Opcode::Model model;
+
+        Opcode::Model model;
 //        model.Build(OPCC);
-//        return model;
-//    }
+        return model;
+    }
 };
 
 //
