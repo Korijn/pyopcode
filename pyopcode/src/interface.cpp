@@ -7,11 +7,15 @@ boost python interface definition
 
 #include "exception.cpp"
 #include "typedefs.cpp"
-
+#include "pyopcode.cpp"
 
 using namespace boost;
 
 typedef float32_t   real_t;         // real type of coordinate space
+typedef int32_t     index_t;         // real type of coordinate space
+
+typedef Mesh<real_t, index_t> mesh_t;
+typedef MeshCollision<real_t, index_t> meshcollision_t;
 
 
 
@@ -25,17 +29,15 @@ BOOST_PYTHON_MODULE(Collision)
 	init_numpy();
 	
 	//register array types employed; needed to avoid runtime error
-	numpy_boost_python_register_type<int16_t, 1>();
-	numpy_boost_python_register_type<int16_t, 2>();
-	numpy_boost_python_register_type<int32_t, 1>();
-	numpy_boost_python_register_type<int32_t, 2>();
-	numpy_boost_python_register_type<int64_t, 1>();
-	numpy_boost_python_register_type<int64_t, 2>();
-
-	numpy_boost_python_register_type<real_t, 1>();
+	numpy_boost_python_register_type<index_t, 2>();
 	numpy_boost_python_register_type<real_t, 2>();
-	numpy_boost_python_register_type<real_t, 3>();
 
+    class_<mesh_t>("Mesh", init<ndarray<real_t, 2>, ndarray<index_t, 2>>())
+		;
+
+    class_<meshcollision_t>("MeshCollision", init<mesh_t, mesh_t>())
+        .def("query", &meshcollision_t::query)
+        ;
 
 	register_exception_translator<python_exception>(&translate);
 
