@@ -20,8 +20,8 @@ using namespace boost;
 typedef float32_t   real_t;         // real type of coordinate space
 typedef int32_t     index_t;         // real type of coordinate space
 
-typedef Mesh<real_t, index_t> mesh_t;
-//typedef MeshCollision<real_t, index_t> meshcollision_t;
+typedef MeshModel<real_t, index_t> model_t;
+typedef MeshCollision<real_t, index_t> collision_t;
 
 
 
@@ -35,12 +35,12 @@ BOOST_PYTHON_MODULE(pyopcode)
 	numpy_boost_python_register_type<index_t, 2>();
 	numpy_boost_python_register_type<real_t, 2>();
 
-    class_<mesh_t>("Mesh", init<ndarray<real_t, 2>, ndarray<index_t, 2>>())
+    class_<model_t>("Model", init<ndarray<real_t, 2>, ndarray<index_t, 2>>())
 		;
 
-//    class_<meshcollision_t>("MeshCollision", init<mesh_t, mesh_t>())
-//        .def("query", &meshcollision_t::query)
-//        ;
+    class_<collision_t>("Collision", init<model_t, model_t>())
+        .def("query", &collision_t::query)
+        ;
 
 	register_exception_translator<python_exception>(&translate);
 
