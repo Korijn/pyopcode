@@ -16,7 +16,7 @@ public:
     const Opcode::MeshInterface interface;
 	const Opcode::Model         model;
 
-    Mesh(const ndarray<real_t, 2> vertices, const ndarray<index_t, 2> triangles) :
+    MeshModel(const ndarray<real_t, 2> vertices, const ndarray<index_t, 2> triangles) :
         vertices    (vertices),
         triangles   (triangles),
         interface   (init_interface()),
