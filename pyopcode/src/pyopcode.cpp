@@ -53,7 +53,7 @@ private:
 
 template<typename real_t, typename index_t>
 class MeshCollision {
-    typedef Mesh<real_t, index_t> mesh_t;
+    typedef MeshModel<real_t, index_t> mesh_t;
     typedef ndarray<real_t, 2> affine_t;
 
 	const mesh_t mesh0;
