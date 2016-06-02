@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+#include <boost/range.hpp>
 #include <boost/range/iterator_range.hpp>
 
 #include "exception.cpp"
@@ -51,42 +53,45 @@ private:
 };
 
 
-//template<typename real_t, typename index_t>
-//class MeshCollision {
-//    typedef MeshModel<real_t, index_t> mesh_t;
-//    typedef ndarray<real_t, 2> affine_t;
-//
-//	const mesh_t mesh0;
-//	const mesh_t mesh1;
-//
-//public:
-//    explicit MeshCollision(const mesh_t mesh0, const mesh_t mesh1) :
-//        mesh0(mesh0), mesh1(mesh1),
-//    {}
-//
-//    ndarray<index_t, 2> query(const affine_t affine0, const affine_t affine1) const {
-//        // helper object to pass arguments to collision query
-//		Opcode::BVTCache ColCache;
-//		ColCache.Model0 = &mesh0.model;
-//		ColCache.Model1 = &mesh1.model;
-//
-//		// Collision query
-//    	Opcode::AABBTreeCollider TC;
-//		const bool IsOk(
-//		    TC.Collide(
-//		        ColCache,
-//		        (IceMaths::Matrix4x4*)affine0.data(),
-//		        (IceMaths::Matrix4x4*)affine1.data()
-//		    )
-//		);
-//
-//        // wrap resulting pairs in numpy array
-//		const bool Status (TC.GetContactStatus());
-//		boost::iterator_range<IceCore::Pair*> pairs = (Status > 0) ?
-//            boost::make_iterator_range(TC.GetPairs()    , TC.GetPairs() + TC.GetNbPairs()) :
-//            boost::make_iterator_range((IceCore::Pair*)0, (IceCore::Pair*)0              );
-//
-//		return ndarray_from_range(pairs).unview<index_t>();
-//    }
-//
-//};
+template<typename real_t, typename index_t>
+class MeshCollision {
+    typedef MeshModel<real_t, index_t> mesh_t;
+    typedef ndarray<real_t, 2> affine_t;
+
+	const mesh_t mesh0;
+	const mesh_t mesh1;
+
+public:
+    explicit MeshCollision(const mesh_t mesh0, const mesh_t mesh1) :
+        mesh0(mesh0), mesh1(mesh1)
+    {}
+
+    ndarray<index_t, 2> query(const affine_t affine0, const affine_t affine1) const {
+        // helper object to pass arguments to collision query
+		Opcode::BVTCache ColCache;
+		ColCache.Model0 = &mesh0.model;
+		ColCache.Model1 = &mesh1.model;
+
+		// Collision query
+    	Opcode::AABBTreeCollider TC;
+		const bool IsOk(
+		    TC.Collide(
+		        ColCache,
+		        (IceMaths::Matrix4x4*)affine0.data(),
+		        (IceMaths::Matrix4x4*)affine1.data()
+		    )
+		);
+
+        // wrap resulting pairs in numpy array
+		const bool Status (TC.GetContactStatus());
+        const boost::array<int, 2> shape = {{(Status > 0) ? TC.GetNbPairs() : 0, 2}};
+        ndarray<index_t, 2> pairs(shape);
+        for (index_t i=0; i<pairs.size(); i++) {
+            const IceCore::Pair* p(TC.GetPairs() + i);
+            pairs[i][0] = p->id0;
+            pairs[i][1] = p->id1;
+        }
+		return pairs;
+    }
+
+};

@@ -39,6 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <complex>
 #include <algorithm>
 #include <iostream>
+#include <stdexcept>
 
 #include <python.h>
 #include <numpy/arrayobject.h>
@@ -46,6 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <boost/multi_array.hpp>
 #include <boost/cstdint.hpp>
 #include <boost/range.hpp>
+
 
 
 #include "exception.cpp"
@@ -287,6 +289,19 @@ public:
     init_from_array(other.array);
   }
 
+  /* Construct a new array based on the given dimensions */
+    template<typename ExtentsList>
+    explicit numpy_boost(const ExtentsList& extents) :
+        super(NULL, std::vector<typename super::index>(NDims, 0)),
+        array(NULL)
+    {
+        npy_intp shape[NDims];
+        for (int i=0; i<NDims; i++)
+            shape[i] = (npy_intp)extents[i];
+        init_from_shape(shape);
+    }
+
+
   /* construct new array and dont do anything */
   explicit numpy_boost() :
     super(NULL, std::vector<typename super::index>(NDims, 0)),
@@ -323,7 +338,7 @@ public:
   }
 
   /* view last axis as type; need to handle three cases here; ndim is bigger, equal or smaller */
-  template<class VT>
+  template<typename VT>
   numpy_boost<VT, NDims-1> view() const
   {
     numpy_boost<VT, NDims-1> _view;
@@ -331,7 +346,7 @@ public:
     return _view;
   }
 
-  template<class VT>
+  template<typename VT>
   numpy_boost<VT, NDims+1> unview() const
   {
     numpy_boost<VT, NDims+1> _view;

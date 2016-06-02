@@ -5,6 +5,7 @@ defines numpy boost array types used
 
 #include <vector>
 
+#include <boost/array.hpp>
 #include <boost/range.hpp>
 #include <boost/range/irange.hpp>
 #include <boost/range/algorithm.hpp>
@@ -27,8 +28,8 @@ template<typename range_t>
 ndarray<typename boost::range_value<range_t>::type>
 ndarray_from_range(const range_t input) {
     typedef typename boost::range_value<range_t>::type element_t;
-    const int size(boost::distance(input));
-    ndarray<element_t> output(boost::extents[size]);
+    const boost::array<int, 1> shape = {{ boost::distance(input) }};
+    ndarray<element_t> output(shape);
     boost::copy(input, output.begin());
     return output;
 }
@@ -39,7 +40,7 @@ ndarray<typename boost::range_value<range_t>::type>
 ndarray_from_iterable(const range_t input) {
     typedef typename boost::range_value<range_t>::type element_t;
     std::vector<element_t> tmp;
-    for (element_t e : input)
+    for (const element_t e : input)
         tmp.push_back(e);
     return ndarray_from_range(tmp);
 }
