@@ -5,7 +5,7 @@ boost python interface definition
 #pragma warning(default : 4005)
 
 
-#define BOOST_DISABLE_ASSERTS
+//#define BOOST_DISABLE_ASSERTS
 #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
 
 
@@ -38,7 +38,7 @@ BOOST_PYTHON_MODULE(pyopcode)
     class_<model_t>("Model", init<ndarray<real_t, 2>, ndarray<index_t, 2>>())
 		;
 
-    class_<collision_t>("Collision", init<model_t, model_t>())
+    class_<collision_t>("Collision", init<model_t&, model_t&>())
         .def("query", &collision_t::query)
         ;
 

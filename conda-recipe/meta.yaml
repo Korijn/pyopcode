@@ -20,7 +20,6 @@ requirements:
     - gcc [linux and (py27 or py34 or py35)]
     - cmake
     - boost
-    - eigen
 
     - python
     - numpy 1.10*

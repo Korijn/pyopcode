@@ -1,9 +1,5 @@
 #pragma once
 
-#include <vector>
-#include <boost/range.hpp>
-#include <boost/range/iterator_range.hpp>
-
 #include "exception.cpp"
 #include "numpy_boost/ndarray.cpp"
 #include "opcode/Opcode.h"
@@ -44,7 +40,7 @@ private:
         OPCC.mIMesh = const_cast<Opcode::MeshInterface*>(&interface);
         OPCC.mNoLeaf = true;
         OPCC.mQuantized = false;
-        OPCC.mKeepOriginal = false;
+        OPCC.mKeepOriginal = true;
 
         Opcode::Model model;
         model.Build(OPCC);
@@ -58,11 +54,11 @@ class MeshCollision {
     typedef MeshModel<real_t, index_t> mesh_t;
     typedef ndarray<real_t, 2> affine_t;
 
-	const mesh_t mesh0;
-	const mesh_t mesh1;
+	const mesh_t& mesh0;
+	const mesh_t& mesh1;
 
 public:
-    explicit MeshCollision(const mesh_t mesh0, const mesh_t mesh1) :
+    explicit MeshCollision(const mesh_t& mesh0, const mesh_t& mesh1) :
         mesh0(mesh0), mesh1(mesh1)
     {}
 
@@ -84,13 +80,14 @@ public:
 
         // wrap resulting pairs in numpy array
 		const bool Status (TC.GetContactStatus());
-        const boost::array<int, 2> shape = {{(Status > 0) ? TC.GetNbPairs() : 0, 2}};
+        const boost::array<int, 2> shape = {{Status ? TC.GetNbPairs() : 0, 2}};
         ndarray<index_t, 2> pairs(shape);
         for (index_t i=0; i<pairs.size(); i++) {
             const IceCore::Pair* p(TC.GetPairs() + i);
             pairs[i][0] = p->id0;
             pairs[i][1] = p->id1;
         }
+
 		return pairs;
     }
 
