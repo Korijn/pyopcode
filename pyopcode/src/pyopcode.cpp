@@ -2,11 +2,15 @@
 
 #include "numpy_boost/ndarray.cpp"
 #include "opcode/Opcode.h"
+#include "gil.cpp"
 
 
 template<typename real_t, typename index_t>
 class MeshModel {
-    /* simple wrapper class for vertices and triangles, and corresponding opcode-model */
+    /*
+    simple wrapper class for vertices and triangles,
+    and corresponding opcode-model, or collision detection acceleration structure
+    */
 public:
     const ndarray<real_t, 2>    vertices;
     const ndarray<index_t, 2>   triangles;
@@ -42,7 +46,10 @@ private:
         OPCC.mKeepOriginal = false;
 
         Opcode::Model model;
-        model.Build(OPCC);
+        {
+            releaseGIL GIL;         // release GIL during heavy lifting without python calls
+            model.Build(OPCC);
+        }
         return model;
     }
 };
@@ -69,13 +76,16 @@ public:
 
 		// Collision query
     	Opcode::AABBTreeCollider TC;
-		const bool IsOk(
-		    TC.Collide(
-		        ColCache,
-		        (IceMaths::Matrix4x4*)affine0.data(),
-		        (IceMaths::Matrix4x4*)affine1.data()
-		    )
-		);
+    	{
+            releaseGIL GIL;         // release GIL during heavy lifting without python calls
+            const bool IsOk(
+                TC.Collide(
+                    ColCache,
+                    (IceMaths::Matrix4x4*)affine0.data(),
+                    (IceMaths::Matrix4x4*)affine1.data()
+                )
+            );
+		}
 
         // wrap resulting pairs in numpy array
 		const bool Status (TC.GetContactStatus());
