@@ -36,10 +36,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __NUMPY_BOOST_HPP__
 #define __NUMPY_BOOST_HPP__
 
-#include <initializer_list>
 #include <complex>
 #include <algorithm>
-#include <array>
 #include <iostream>
 
 #include <python.h>
@@ -47,6 +45,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <boost/python.hpp>
 #include <boost/multi_array.hpp>
 #include <boost/cstdint.hpp>
+#include <boost/range.hpp>
+
 
 #include "exception.cpp"
 
@@ -118,7 +118,7 @@ namespace detail {
         point to it.
 
  */
-template<class T, int NDims>
+template<class T, int NDims=1>
 class numpy_boost : public boost::multi_array_ref<T, NDims>
 {
 public:
@@ -287,27 +287,6 @@ public:
     init_from_array(other.array);
   }
 
-  /* Construct a new array based on the given dimensions */
-  template<class ExtentsList>
-  explicit numpy_boost(const ExtentsList& extents) :
-    super(NULL, std::vector<typename super::index>(NDims, 0)),
-    array(NULL)
-  {
-    npy_intp shape[NDims];
-    boost::detail::multi_array::copy_n(extents, NDims, shape);
-    init_from_shape(shape);
-  }
-
-  /* Construct a new array based on the dimensions given in the initializer list*/
-  explicit numpy_boost(const std::initializer_list<npy_intp> extents) :
-    super(NULL, std::vector<typename super::index>(NDims, 0)),
-    array(NULL)
-  {
-    npy_intp shape[NDims];
-    boost::detail::multi_array::copy_n(extents.begin(), NDims, shape);
-    init_from_shape(shape);
-  }
-
   /* construct new array and dont do anything */
   explicit numpy_boost() :
     super(NULL, std::vector<typename super::index>(NDims, 0)),
@@ -334,18 +313,18 @@ public:
   }
 
   /* view as range of the given viewtype VT; add asserts? */
-  const auto range() const
+  const boost::iterator_range<TPtr> range() const
   {
     return boost::make_iterator_range(data(), data()+size());
   }
-  auto range()
+  boost::iterator_range<TPtr> range()
   {
     return boost::make_iterator_range(data(), data()+size());
   }
 
   /* view last axis as type; need to handle three cases here; ndim is bigger, equal or smaller */
   template<class VT>
-  auto view() const
+  numpy_boost<VT, NDims-1> view() const
   {
     numpy_boost<VT, NDims-1> _view;
     _view.init_view(*this);
@@ -353,7 +332,7 @@ public:
   }
 
   template<class VT>
-  auto unview() const
+  numpy_boost<VT, NDims+1> unview() const
   {
     numpy_boost<VT, NDims+1> _view;
     _view.init_unview(*this);

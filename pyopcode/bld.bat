@@ -2,7 +2,7 @@
 rmdir /S /Q build
 del pyopcode.pyd
 
-set PY_VER=3.5
+set PY_VER=2.7
 set ARCH=64
 
 

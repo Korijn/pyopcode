@@ -15,20 +15,33 @@ defines numpy boost array types used
 
 
 // make ndarray subclass of numpy_boost?
-template <typename T, int N=1>
-using ndarray = numpy_boost<T, N>;
+//template <typename T, int N=1>
+//using ndarray = numpy_boost<T, N>;
+// macro is backwardsw compatible with older version of cpp
+#define ndarray numpy_boost
 
 
-// extension method for ndarray; should be a method on class
+// extension method for ndarray; should be a static method on class, really
+// copy range of known size to ndarray of the same type
 template<typename range_t>
-auto ndarray_from_range(const range_t input) {
+ndarray<typename boost::range_value<range_t>::type>
+ndarray_from_range(const range_t input) {
+    typedef typename boost::range_value<range_t>::type element_t;
+    const int size(boost::distance(input));
+    ndarray<element_t> output(boost::extents[size]);
+    boost::copy(input, output.begin());
+    return output;
+}
+
+// copy iterable range of unknown size to ndarray of the same type, via a vector temporary
+template<typename range_t>
+ndarray<typename boost::range_value<range_t>::type>
+ndarray_from_iterable(const range_t input) {
     typedef typename boost::range_value<range_t>::type element_t;
     std::vector<element_t> tmp;
     for (element_t e : input)
         tmp.push_back(e);
-    ndarray<element_t> output({(int)tmp.size()});
-    boost::copy(tmp, output.begin());
-    return output;
+    return ndarray_from_range(tmp);
 }
 
 
