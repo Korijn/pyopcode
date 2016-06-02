@@ -1,10 +1,10 @@
 name: pyopcode
 channels:
   - anaconda
-  - conda-forge  # for boost and eigen
+  - conda-forge  # for boost
   - clinicalgraphics
 dependencies:
-  - python =3.5*
+  - python =2.7*
   - numpy >=1.10*
   # cppdev
   - cmake

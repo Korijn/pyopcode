@@ -1,6 +1,5 @@
 #pragma once
 
-#include "exception.cpp"
 #include "numpy_boost/ndarray.cpp"
 #include "opcode/Opcode.h"
 
@@ -40,7 +39,7 @@ private:
         OPCC.mIMesh = const_cast<Opcode::MeshInterface*>(&interface);
         OPCC.mNoLeaf = true;
         OPCC.mQuantized = false;
-        OPCC.mKeepOriginal = true;
+        OPCC.mKeepOriginal = false;
 
         Opcode::Model model;
         model.Build(OPCC);
@@ -87,7 +86,6 @@ public:
             pairs[i][0] = p->id0;
             pairs[i][1] = p->id1;
         }
-
 		return pairs;
     }
 
