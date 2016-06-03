@@ -1,9 +1,44 @@
 #!/bin/bash
 
-$PYTHON setup.py install
 
-# Add more build steps here, if they are necessary.
+if [ `uname` == Linux ]; then
+    CC=${PREFIX}/bin/gcc
+    CXX=${PREFIX}/bin/g++
 
-# See
-# http://docs.continuum.io/conda/build.html
-# for a list of environment variables that are set during the build process.
+    # FIXME refactor to reuse the python name (e.g. python3.5m)
+    # FIXME detect any kind of suffix (m, or d)
+    include_path=${PREFIX}/include/python${PY_VER}
+    if [ ! -d $include_path ]; then
+      # Control will enter here if $DIRECTORY doesn't exist.
+      include_path=${PREFIX}/include/python${PY_VER}m
+    fi
+
+    PY_LIB="libpython${PY_VER}.so"
+    library_file_path=${PREFIX}/lib/${PY_LIB}
+    if [ ! -f $library_file_path ]; then
+        library_file_path=${PREFIX}/lib/libpython${PY_VER}m.so
+    fi
+
+    # we're in gdcm-2.4.4 == $SRC_DIR
+    cd pyopcode
+    mkdir build
+    cd build
+
+    cmake ../src -G"$GENERATOR_NAME$" \
+        -Wno-dev \
+        -DCMAKE_BUILD_TYPE          = $BUILD_CONFIG \
+        -DCMAKE_INSTALL_PREFIX      = $PREFIX \
+        -DPYTHON_INCLUDE_DIR:PATH   = $PREFIX/include \
+        -DPYTHON_LIBRARY:FILEPATH   = $PYTHON_LIBRARY \
+        -DNUMPY_INCLUDE_DIR:PATH    = $SP_DIR/numpy/core/include \
+        -DBOOST_ROOT:PATH           = $PREFIX/Library
+
+cd..
+
+cmake --build ./build --clean-first --target ALL_BUILD --config %BUILD_CONFIG%
+
+copy .\build\release\pyopcode.pyd .\pyopcode.pyd
+
+cd..
+
+python setup.py install

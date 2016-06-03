@@ -14,23 +14,25 @@ if %ARCH%==64 (
 )
 
 REM tell cmake where Python is
-set PYTHON_LIBRARY=%CENV%\libs\python%PY_VER:~0,1%%PY_VER:~2,1%.lib
+set PYTHON_LIBRARY=%PREFIX%\libs\python%PY_VER:~0,1%%PY_VER:~2,1%.lib
 
 
 
 REM work in build subdir
 cd pyopcode
 mkdir build
+cd build
 
-cmake ./src -G"%GENERATOR_NAME%" ^
+cmake ../src -G"%GENERATOR_NAME%" ^
     -Wno-dev ^
-    -DCMAKE_BUILD_TYPE=%BUILD_CONFIG% ^
-    -DCMAKE_INSTALL_PREFIX="%PREFIX%" ^
-    -DPYTHON_INCLUDE_DIR:PATH="%CENV%/include" ^
-    -DPYTHON_LIBRARY:FILEPATH="%PYTHON_LIBRARY%" ^
-	-DNUMPY_INCLUDE_DIR:PATH="%SP_DIR%/numpy/core/include" ^
-    -DBOOST_ROOT:PATH="%CENV%/Library"
+    -DCMAKE_BUILD_TYPE          = %BUILD_CONFIG% ^
+    -DCMAKE_INSTALL_PREFIX      = "%PREFIX%" ^
+    -DPYTHON_INCLUDE_DIR:PATH   = "%PREFIX%/include" ^
+    -DPYTHON_LIBRARY:FILEPATH   = "%PYTHON_LIBRARY%" ^
+	-DNUMPY_INCLUDE_DIR:PATH    = "%SP_DIR%/numpy/core/include" ^
+    -DBOOST_ROOT:PATH           = "%PREFIX%/Library"
 
+cd..
 
 cmake --build ./build --clean-first --target ALL_BUILD --config %BUILD_CONFIG%
 
@@ -38,4 +40,6 @@ if %errorlevel% neq 0 exit /b %errorlevel%
 
 copy .\build\release\pyopcode.pyd .\pyopcode.pyd
 
-rmdir /S /Q build
+cd..
+
+python setup.py install

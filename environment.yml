@@ -5,7 +5,7 @@ channels:
   - clinicalgraphics
 dependencies:
   - python =2.7*
-  - numpy >=1.10*
+  - numpy >=1.10
   # cppdev
   - cmake
   - boost =1.6*
@@ -13,6 +13,7 @@ dependencies:
   - pyyaml =3.11*
   - invoke >=0.11.1,<0.12
   - requests =2.9*
+  - setuptools
   # tests
   - pytest =2.8*
   - mock =1.3*
