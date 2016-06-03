@@ -24,14 +24,14 @@ if [ `uname` == Linux ]; then
     mkdir build
     cd build
 
-    cmake ../src -G"$GENERATOR_NAME$" \
+    cmake ../src \
         -Wno-dev \
-        -DCMAKE_BUILD_TYPE          = $BUILD_CONFIG \
-        -DCMAKE_INSTALL_PREFIX      = $PREFIX \
-        -DPYTHON_INCLUDE_DIR:PATH   = $PREFIX/include \
-        -DPYTHON_LIBRARY:FILEPATH   = $PYTHON_LIBRARY \
-        -DNUMPY_INCLUDE_DIR:PATH    = $SP_DIR/numpy/core/include \
-        -DBOOST_ROOT:PATH           = $PREFIX/Library
+        -DCMAKE_BUILD_TYPE          = ${BUILD_CONFIG} \
+        -DCMAKE_INSTALL_PREFIX      = ${PREFIX} \
+        -DPYTHON_INCLUDE_DIR:PATH   = ${PREFIX}/include \
+        -DPYTHON_LIBRARY:FILEPATH   = ${PYTHON_LIBRARY} \
+        -DNUMPY_INCLUDE_DIR:PATH    = ${SP_DIR}/numpy/core/include \
+        -DBOOST_ROOT:PATH           = ${PREFIX}/Library
 
 cd..
 
