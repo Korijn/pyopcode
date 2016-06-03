@@ -39,7 +39,7 @@ fi
 
 cd ..
 cmake --build ./build --clean-first --config ${BUILD_CONFIG}
-copy .\build\release\pyopcode.pyd .\pyopcode.pyd
+copy .\build\release\pyopcode.so .\pyopcode.so
 cd ..
 
 python setup.py install
