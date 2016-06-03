@@ -14,7 +14,7 @@ dependencies:
   - invoke >=0.11.1,<0.12
   - requests =2.9*
   # tests
-  - pytest =2.9*
+  - pytest =2.8*
   - mock =1.3*
   - pytest-mock =0.10*
   - pytest-cov =2.2.1

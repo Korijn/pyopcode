@@ -1,5 +1,6 @@
 
 import numpy as np
+import pytest
 import pyopcode
 
 
@@ -10,6 +11,22 @@ def triangle_soup(N, range=(0, 0)):
     view += np.random.uniform(*range, size=(N, 1, 3))
     triangles = np.arange(N * 3).reshape(N, 3).astype(np.int32)
     return vertices, triangles
+
+
+def test_invalid():
+    vertices = np.random.rand(10, 3)
+    triangles = np.arange(10 * 3).reshape(10, 3).astype(np.int32)
+
+    with pytest.raises(TypeError):
+        mesh = pyopcode.Model(vertices, triangles)
+
+    vertices = np.random.rand(10, 2).astype(np.float32)
+    with pytest.raises(RuntimeError):
+        mesh = pyopcode.Model(vertices, triangles)
+
+    vertices = np.asfortranarray(np.random.rand(10, 3).astype(np.float32))
+    with pytest.raises(RuntimeError):
+        mesh = pyopcode.Model(vertices, triangles)
 
 
 def test_basic():
@@ -56,4 +73,4 @@ def test_GIL():
     print (time.clock() - start)
 
 
-test_GIL()
+test_invalid()

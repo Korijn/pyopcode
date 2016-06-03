@@ -26,14 +26,14 @@ requirements:
     - pyyaml 3.11*
 
   run:
-    - python 3.5*
+    - python
     - numpy 1.10*
 
 test:
   imports:
     - pyopcode
   commands:
-    - py.test --pyargs skcg
+    - py.test
   requires:
     - pytest 2.9*
     - mock 1.3*
