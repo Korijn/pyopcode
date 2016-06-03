@@ -16,11 +16,13 @@ if %ARCH%==64 (
 REM tell cmake where Python is
 set PYTHON_LIBRARY=%CENV%\libs\python%PY_VER:~0,1%%PY_VER:~2,1%.lib
 
-REM work in build subdir
-mkdir build
-cd build
 
-cmake ../src -G"%GENERATOR_NAME%" ^
+
+REM work in build subdir
+cd pyopcode
+mkdir build
+
+cmake ./src -G"%GENERATOR_NAME%" ^
     -Wno-dev ^
     -DCMAKE_BUILD_TYPE=%BUILD_CONFIG% ^
     -DCMAKE_INSTALL_PREFIX="%PREFIX%" ^
@@ -30,12 +32,10 @@ cmake ../src -G"%GENERATOR_NAME%" ^
     -DBOOST_ROOT:PATH="%CENV%/Library"
 
 
-cd..
-
 cmake --build ./build --clean-first --target ALL_BUILD --config %BUILD_CONFIG%
 
 if %errorlevel% neq 0 exit /b %errorlevel%
 
-copy .\build\release\pyopcode.pyd .
+copy .\build\release\pyopcode.pyd .\pyopcode.pyd
 
 rmdir /S /Q build
