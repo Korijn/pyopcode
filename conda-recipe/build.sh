@@ -19,7 +19,6 @@ if [ `uname` == Linux ]; then
         library_file_path=${PREFIX}/lib/libpython${PY_VER}m.so
     fi
 
-    # we're in gdcm-2.4.4 == $SRC_DIR
     cd pyopcode
     mkdir build
     cd build
@@ -35,7 +34,7 @@ if [ `uname` == Linux ]; then
 
 cd..
 
-cmake --build ./build --clean-first --target ALL_BUILD --config %BUILD_CONFIG%
+cmake --build ./build --clean-first --target ALL_BUILD --config ${BUILD_CONFIG}
 
 copy .\build\release\pyopcode.pyd .\pyopcode.pyd
 
