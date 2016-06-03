@@ -32,6 +32,9 @@ if [ `uname` == Linux ]; then
         -DNUMPY_INCLUDE_DIR:PATH    = ${SP_DIR}/numpy/core/include \
         -DBOOST_ROOT:PATH           = ${PREFIX}/Library
 
+fi
+
+
 cd..
 
 cmake --build ./build --clean-first --target ALL_BUILD --config ${BUILD_CONFIG}
