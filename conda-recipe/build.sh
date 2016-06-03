@@ -38,7 +38,7 @@ fi
 
 
 cd ..
-cmake --build ./build --clean-first --target ALL_BUILD --config ${BUILD_CONFIG}
+cmake --build ./build --clean-first --config ${BUILD_CONFIG}
 copy .\build\release\pyopcode.pyd .\pyopcode.pyd
 cd ..
 
