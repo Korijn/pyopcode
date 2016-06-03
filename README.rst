@@ -1,4 +1,8 @@
-# pyopcode
+|Build Status|
+
+pyOPCODE
+========================
+
 Numpy bindings for the OPCODE collision detection library.
 
 Currently, this only wraps the functionality to perform efficient triangle-triangle collisions between two rigid triangle meshes, using AABB trees.
@@ -12,3 +16,7 @@ Support for wrapping the raytracing/picking code is planned as well.
 In general; the hard part in making this package is getting the code to compile. Given that is does that, extending the interface should generally by simple.
 
 Support is planned for python 2.7, 3.5, windows, and linux
+
+
+.. |Build Status| image:: https://travis-ci.org/ClinicalGraphics/pyopcode.svg?branch=master
+   :target: https://travis-ci.org/ClinicalGraphics/pyopcode

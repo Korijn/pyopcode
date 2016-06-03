@@ -1,6 +1,8 @@
 #!/bin/bash
 
 
+BUILD_CONFIG=Release
+
 if [ `uname` == Linux ]; then
     CC=${PREFIX}/bin/gcc
     CXX=${PREFIX}/bin/g++
