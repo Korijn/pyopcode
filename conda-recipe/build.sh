@@ -16,9 +16,9 @@ if [ `uname` == Linux ]; then
     fi
 
     PY_LIB="libpython${PY_VER}.so"
-    library_file_path=${PREFIX}/lib/${PY_LIB}
-    if [ ! -f $library_file_path ]; then
-        library_file_path=${PREFIX}/lib/libpython${PY_VER}m.so
+    PYTHON_LIBRARY=${PREFIX}/lib/${PY_LIB}
+    if [ ! -f $PYTHON_LIBRARY ]; then
+        PYTHON_LIBRARY=${PREFIX}/lib/libpython${PY_VER}m.so
     fi
 
     cd pyopcode
@@ -30,16 +30,21 @@ if [ `uname` == Linux ]; then
         -DCMAKE_BUILD_TYPE=${BUILD_CONFIG} \
         -DCMAKE_INSTALL_PREFIX=${PREFIX} \
         -DPYTHON_INCLUDE_DIR:PATH=${PREFIX}/include \
-        -DPYTHON_LIBRARY:FILEPATH=${PYTHON_LIBRARY} \
-        -DNUMPY_INCLUDE_DIR:PATH=${SP_DIR}/numpy/core/include \
-        -DBOOST_ROOT:PATH=${PREFIX}/Library
+        -DPYTHON_LIBRARY:FILEPATH=$PYTHON_LIBRARY \
+        -DNUMPY_INCLUDE_DIR:PATH="${SP_DIR}/numpy/core/include" \
+        -DBOOST_ROOT:PATH=${PREFIX}/include
 
 fi
 
+#cd ..
+#cmake --build ./build --clean-first --config ${BUILD_CONFIG}
+#copy .\build\release\pyopcode.so .\pyopcode.so
+#cd ..
+
+make -j${CPU_COUNT}
+make install
 
 cd ..
-cmake --build ./build --clean-first --config ${BUILD_CONFIG}
 copy .\build\release\pyopcode.so .\pyopcode.so
-cd ..
 
 python setup.py install
