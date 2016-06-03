@@ -37,9 +37,9 @@ if [ `uname` == Linux ]; then
 fi
 
 
-cd..
+cd ..
 cmake --build ./build --clean-first --target ALL_BUILD --config ${BUILD_CONFIG}
 copy .\build\release\pyopcode.pyd .\pyopcode.pyd
-cd..
+cd ..
 
 python setup.py install
