@@ -36,13 +36,13 @@ if [ `uname` == Linux ]; then
 
 fi
 
-#cd ..
-#cmake --build ./build --clean-first --config ${BUILD_CONFIG}
-#copy .\build\release\pyopcode.so .\pyopcode.so
-#cd ..
+cd ..
+cmake --build ./build --clean-first --config ${BUILD_CONFIG}
+copy .\build\release\pyopcode.so .\pyopcode.so
+cd ..
 
-make -j${CPU_COUNT}
-make install
+# make -j${CPU_COUNT}
+# make install
 
 cd ..
 copy .\build\release\pyopcode.so .\pyopcode.so
