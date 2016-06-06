@@ -19,7 +19,7 @@ setup(
     url=pkg_conf.get_recipe_meta()['about']['home'],
     license=pkg_conf.get_recipe_meta()['about']['license'],
     platforms='any',
-    data_files=[('/Library/bin', ['pyopcode/_pyopcode.pyd'])],
+    data_files=[('Library/bin', ['pyopcode/_pyopcode.pyd'])],
     classifiers=[
         "Development Status :: 4 - Beta",
         'Intended Audience :: Science/Research',
