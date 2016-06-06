@@ -1,7 +1,6 @@
 """public interface"""
 
 import os
-from _pyopcode import Mesh, Collision
 
 __author__ = "Eelco Hoogendoorn"
 __license__ = "LGPL"

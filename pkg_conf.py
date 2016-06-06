@@ -11,7 +11,6 @@ DOC_ROOT = 'docs'
 ANACONDA_USER = 'EelcoHoogendoorn'
 PKG_ROOT = 'pyopcode'
 PKG_NAME = 'pyopcode'
-DATA_FILES = ["*.npz", "*.json"]
 
 ################################
 # End of customizable settings #

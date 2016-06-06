@@ -47,8 +47,9 @@ cmake --build ./build --clean-first --target ALL_BUILD --config %BUILD_CONFIG%
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 
-copy .\build\release\pyopcode.pyd .
+copy .\build\release\_pyopcode.pyd .\_pyopcode.pyd
 
-rmdir /S /Q build
+REM rmdir /S /Q build
 
-python test.py
+cd..
+py.test pyopcode\test.py

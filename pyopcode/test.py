@@ -71,6 +71,3 @@ def test_GIL():
     for r in results:
         print(len(r))
     print (time.clock() - start)
-
-
-test_invalid()

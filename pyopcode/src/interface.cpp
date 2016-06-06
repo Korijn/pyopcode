@@ -23,7 +23,7 @@ typedef MeshCollision<real_t, index_t> collision_t;
 
 
 using namespace boost::python;
-BOOST_PYTHON_MODULE(pyopcode)
+BOOST_PYTHON_MODULE(_pyopcode)
 {
     // init GIL control
     PyEval_InitThreads();
