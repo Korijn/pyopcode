@@ -1,5 +1,7 @@
 from setuptools import find_packages
 from distutils.core import setup
+from distutils import sysconfig
+site_packages_path = sysconfig.get_python_lib()
 
 import pkg_conf
 
@@ -17,7 +19,7 @@ setup(
     url=pkg_conf.get_recipe_meta()['about']['home'],
     license=pkg_conf.get_recipe_meta()['about']['license'],
     platforms='any',
-    include_package_data=True,
+    data_files=[('/Library/bin', ['pyopcode/_pyopcode.pyd'])],
     classifiers=[
         "Development Status :: 4 - Beta",
         'Intended Audience :: Science/Research',
