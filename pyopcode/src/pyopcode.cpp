@@ -15,7 +15,7 @@ public:
     const ndarray<real_t, 2>    vertices;
     const ndarray<index_t, 2>   triangles;
     const Opcode::MeshInterface interface;
-	const Opcode::Model         model;
+    const Opcode::Model         model;
 
     explicit MeshModel(const ndarray<real_t, 2> vertices, const ndarray<index_t, 2> triangles) :
         vertices    (vertices),
@@ -60,8 +60,8 @@ class MeshCollision {
     typedef MeshModel<real_t, index_t> mesh_t;
     typedef ndarray<real_t, 2> affine_t;
 
-	const mesh_t& mesh0;
-	const mesh_t& mesh1;
+    const mesh_t& mesh0;
+    const mesh_t& mesh1;
 
 public:
     explicit MeshCollision(const mesh_t& mesh0, const mesh_t& mesh1) :
@@ -70,13 +70,13 @@ public:
 
     ndarray<index_t, 2> query(const affine_t affine0, const affine_t affine1) const {
         // helper object to pass arguments to collision query
-		Opcode::BVTCache ColCache;
-		ColCache.Model0 = &mesh0.model;
-		ColCache.Model1 = &mesh1.model;
+        Opcode::BVTCache ColCache;
+        ColCache.Model0 = &mesh0.model;
+        ColCache.Model1 = &mesh1.model;
 
-		// Collision query
-    	Opcode::AABBTreeCollider TC;
-    	{
+        // Collision query
+        Opcode::AABBTreeCollider TC;
+        {
             releaseGIL GIL;         // release GIL during heavy lifting without python calls
             const bool IsOk(
                 TC.Collide(
@@ -85,10 +85,10 @@ public:
                     (IceMaths::Matrix4x4*)affine1.data()
                 )
             );
-		}
+        }
 
         // wrap resulting pairs in numpy array
-		const bool Status (TC.GetContactStatus());
+        const bool Status (TC.GetContactStatus());
         const boost::array<int, 2> shape = {{Status ? TC.GetNbPairs() : 0, 2}};
         ndarray<index_t, 2> pairs(shape);
         for (index_t i=0; i<pairs.size(); i++) {
@@ -96,7 +96,7 @@ public:
             pairs[i][0] = p->id0;
             pairs[i][1] = p->id1;
         }
-		return pairs;
+        return pairs;
     }
 
 };
