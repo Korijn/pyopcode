@@ -18,9 +18,6 @@ setup(
     license=pkg_conf.get_recipe_meta()['about']['license'],
     platforms='any',
     include_package_data=True,
-    # data_files=[('pyopcode', ['pyopcode/pyopcode.pyd']),
-    #             ('pyopcode', ['pyopcode/pyopcode.so'])
-    #             ],
     classifiers=[
         "Development Status :: 4 - Beta",
         'Intended Audience :: Science/Research',

@@ -23,11 +23,10 @@ requirements:
   - setuptools
   run:
   - python
-  - libgcc
+  - libgcc [linux and (py27 or py34 or py35)]
   - numpy 1.10*
   - future
 source:
-#  path: ..
   git_url: https://github.com/ClinicalGraphics/pyopcode.git
   git_rev: latest
 test:

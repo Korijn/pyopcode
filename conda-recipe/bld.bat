@@ -42,4 +42,5 @@ copy .\build\release\pyopcode.pyd .\pyopcode.pyd
 
 cd..
 
+python setup.py bdist
 python setup.py install
