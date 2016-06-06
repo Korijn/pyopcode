@@ -1,6 +1,7 @@
 """public interface"""
 
 import os
+from pyopcode._pyopcode import Model, Collision
 
 __author__ = "Eelco Hoogendoorn"
 __license__ = "LGPL"
