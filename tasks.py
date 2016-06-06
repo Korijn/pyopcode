@@ -40,7 +40,7 @@ def _confirm(prompt='Are you sure?', error='Cancelled.'):
 
 
 @task
-def build():
+def build(python=None):
     """
     Builds the conda package
     """
@@ -50,6 +50,8 @@ def build():
     # add all required channels
     channels = sep.join('conda config --add channels ' + c for c in pkg_conf.get_channels())
     command = channels + sep + "conda build conda-recipe --no-anaconda-upload --quiet"
+    if python is not None:
+        command = command + ' --python ' + python
     if on_win32:
         run("deactivate" + sep + command)
     elif on_linux:
