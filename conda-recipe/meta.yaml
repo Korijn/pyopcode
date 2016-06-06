@@ -28,8 +28,8 @@ requirements:
   - future
 source:
   path: ..
-test:
-  commands:
-  - py.test
-  imports:
-  - pyopcode
+#test:
+#  commands:
+#  - py.test pyopcode\test.py
+#  imports:
+#  - pyopcode

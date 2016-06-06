@@ -49,7 +49,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%
 
 copy .\build\release\_pyopcode.pyd .\_pyopcode.pyd
 
-REM rmdir /S /Q build
+rmdir /S /Q build
 
 cd..
 py.test pyopcode\test.py
