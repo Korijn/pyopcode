@@ -45,6 +45,7 @@ cd ..
 # make install
 
 cd ..
-copy .\build\release\pyopcode.so .\pyopcode.so
+copy .\build\release\pyopcode.so .\_pyopcode.so
 
+python setup.py bdist
 python setup.py install

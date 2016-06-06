@@ -3,6 +3,6 @@ include environment.yml
 include README.rst
 include setup.py
 recursive-include conda-recipe *.*
-include pyopcode/pyopcode.*
+include pyopcode/_pyopcode.*
 prune pyopcode/build
 prune pyopcode/src
