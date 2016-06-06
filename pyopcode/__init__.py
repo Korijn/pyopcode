@@ -9,4 +9,4 @@ __email__ = "eelco@clinicalgraphics.com"
 
 pkg_dir = os.path.abspath(os.path.dirname(__file__))
 
-__version__ = '0.1.dev3'
+__version__ = '0.1.3'
