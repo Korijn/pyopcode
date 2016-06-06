@@ -1,7 +1,8 @@
 include pkg_conf.py
 include environment.yml
-include readme.rst
+include README.rst
 include setup.py
 recursive-include conda-recipe *.*
+include pyopcode/*
 prune pyopcode/build
 prune pyopcode/src
