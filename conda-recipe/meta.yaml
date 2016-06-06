@@ -27,7 +27,8 @@ requirements:
   - numpy 1.10*
   - future
 source:
-  path: ..
+  #path: ..
+  git_url: https://github.com/ClinicalGraphics/pyopcode.git
 test:
   imports:
   - pyopcode
