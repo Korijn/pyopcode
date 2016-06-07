@@ -7,11 +7,11 @@ build:
   - vc9                [win and py27]
   - vc10               [win and py34]
   - vc14               [win and py35]
-  number: 1
+  number: 0
   preserve_egg_dir: true
 package:
   name: pyopcode
-  version: 0.1.5
+  version: 0.1.dev6
 requirements:
   build:
   - gcc 4.8.2 [linux]
