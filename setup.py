@@ -3,7 +3,14 @@ from distutils.core import setup
 from distutils import sysconfig
 site_packages_path = sysconfig.get_python_lib()
 
+
 import pkg_conf
+import os
+import sys
+is_win = sys.platform.startswith("win")
+shared_lib_path = os.path.join(sys.prefix, r"DLLs" if is_win else r"lib")
+shared_lib_files = r'pyopcode/_pyopcode.pyd' if is_win else r'pyopcode/_pyopcode.so'
+data_files = [(shared_lib_path, [shared_lib_files])]
 
 
 setup(
@@ -19,7 +26,7 @@ setup(
     url=pkg_conf.get_recipe_meta()['about']['home'],
     license=pkg_conf.get_recipe_meta()['about']['license'],
     platforms='any',
-    data_files=[('Library/bin', ['pyopcode/_pyopcode.pyd'])],
+    data_files=data_files,
     classifiers=[
         "Development Status :: 4 - Beta",
         'Intended Audience :: Science/Research',

@@ -14,7 +14,7 @@ package:
   version: 0.1.5
 requirements:
   build:
-  - gcc 4.8.2 [linux and (py27 or py34 or py35)]
+  - gcc 4.8.2 [linux]
   - cmake 3.5*
   - boost
   - python
@@ -23,13 +23,12 @@ requirements:
   - setuptools
   run:
   - python
-  - libgcc [linux and (py27 or py34 or py35)]
+  - boost
+  - libgcc [linux]
   - numpy 1.10*
   - future
 source:
   path: ..
 test:
-  commands:
-  - py.test pyopcode\test.py
   imports:
   - pyopcode

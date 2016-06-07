@@ -1,6 +1,6 @@
 
 rmdir /S /Q build
-del pyopcode.pyd
+del _pyopcode.pyd
 
 set PY_VER=3.5
 set ARCH=64
@@ -38,7 +38,6 @@ cmake ../src -G"%GENERATOR_NAME%" ^
     -DPYTHON_LIBRARY:FILEPATH="%PYTHON_LIBRARY%" ^
 	-DNUMPY_INCLUDE_DIR:PATH="%SP_DIR%/numpy/core/include" ^
     -DBOOST_ROOT:PATH="%CENV%/Library"
-
 
 cd..
 

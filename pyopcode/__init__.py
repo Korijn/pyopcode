@@ -2,18 +2,7 @@
 
 import os
 
-name = 'pyopcode'
-path = '_pyopcode.pyd'
-try:
-    import importlib.machinery
-    loader = importlib.machinery.ExtensionFileLoader(name, path)
-    pyopcode = loader.load_module()
-except:
-    import imp
-    pyopcode = imp.load_dynamic(name, path)
-
-Model = pyopcode.Model
-Collision = pyopcode.Collision
+from _pyopcode import Model, Collision
 
 __author__ = "Eelco Hoogendoorn"
 __license__ = "LGPL"
