@@ -7,25 +7,25 @@ build:
   - vc9                [win and py27]
   - vc10               [win and py34]
   - vc14               [win and py35]
-  number: 0
+  number: 1
   preserve_egg_dir: true
 package:
   name: pyopcode
-  version: 0.1.dev7
+  version: 0.1.7
 requirements:
   build:
-  - gcc 4.8.2 [linux]
-  - cmake 3.5*
-  - boost
   - python
   - numpy 1.10*
+  - gcc 4.8.2 [linux]
+  - cmake 3.5*
+  - boost 1.6*
   - pyyaml 3.11*
   - setuptools
   run:
   - python
-  - boost
-  - libgcc [linux]
   - numpy 1.10*
+  - boost 1.6*
+  - libgcc [linux]
   - future
 source:
   path: ..

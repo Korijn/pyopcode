@@ -65,14 +65,21 @@ class MeshCollision {
     const mesh_t& mesh0;
     const mesh_t& mesh1;
 
-    Opcode::BVTCache ColCache;
+    const Opcode::BVTCache cache;
 
 public:
     explicit MeshCollision(const mesh_t& mesh0, const mesh_t& mesh1) :
-        mesh0(mesh0), mesh1(mesh1)
+        mesh0(mesh0),
+        mesh1(mesh1),
+        cache(init_cache())
     {
-        ColCache.Model0 = &mesh0.model;
-        ColCache.Model1 = &mesh1.model;
+    }
+
+    Opcode::BVTCache init_cache() const {
+        Opcode::BVTCache cache;
+        cache.Model0 = &mesh0.model;
+        cache.Model1 = &mesh1.model;
+        return cache;
     }
 
     ndarray<index_t, 2> query(const affine_t affine0, const affine_t affine1) const {
@@ -82,7 +89,7 @@ public:
             releaseGIL GIL;         // release GIL during heavy lifting without python calls
             const bool IsOk(
                 TC.Collide(
-                    ColCache,
+                    const_cast<Opcode::BVTCache&>(cache),       // const in this context, but not for TC
                     (IceMaths::Matrix4x4*)affine0.data(),
                     (IceMaths::Matrix4x4*)affine1.data()
                 )
