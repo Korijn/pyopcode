@@ -1,4 +1,3 @@
-include pyopcode/_pyopcode.*
 include pkg_conf.py
 include environment.yml
 include README.rst
