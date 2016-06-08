@@ -1,5 +1,7 @@
 #pragma once
 
+#include <boost/range.hpp>
+
 #include "numpy_boost/ndarray.cpp"
 #include "opcode/Opcode.h"
 #include "gil.cpp"
@@ -63,17 +65,17 @@ class MeshCollision {
     const mesh_t& mesh0;
     const mesh_t& mesh1;
 
+    Opcode::BVTCache ColCache;
+
 public:
     explicit MeshCollision(const mesh_t& mesh0, const mesh_t& mesh1) :
         mesh0(mesh0), mesh1(mesh1)
-    {}
-
-    ndarray<index_t, 2> query(const affine_t affine0, const affine_t affine1) const {
-        // helper object to pass arguments to collision query
-        Opcode::BVTCache ColCache;
+    {
         ColCache.Model0 = &mesh0.model;
         ColCache.Model1 = &mesh1.model;
+    }
 
+    ndarray<index_t, 2> query(const affine_t affine0, const affine_t affine1) const {
         // Collision query
         Opcode::AABBTreeCollider TC;
         {
@@ -87,15 +89,15 @@ public:
             );
         }
 
+        // view resulting pairs as range
+        boost::iterator_range<const IceCore::Pair*> pairs_range = TC.GetContactStatus() ?
+            boost::make_iterator_range(TC.GetPairs()    , TC.GetPairs() + TC.GetNbPairs()):
+            boost::make_iterator_range((IceCore::Pair*)0, (IceCore::Pair*)0              );
+
         // wrap resulting pairs in numpy array
-        const bool Status (TC.GetContactStatus());
-        const boost::array<int, 2> shape = {{Status ? TC.GetNbPairs() : 0, 2}};
+        const boost::array<int, 2> shape = {{boost::distance(pairs_range), 2}};
         ndarray<index_t, 2> pairs(shape);
-        for (index_t i=0; i<pairs.size(); i++) {
-            const IceCore::Pair* p(TC.GetPairs() + i);
-            pairs[i][0] = p->id0;
-            pairs[i][1] = p->id1;
-        }
+        boost::copy(pairs_range, pairs.view<IceCore::Pair>().begin());
         return pairs;
     }
 
