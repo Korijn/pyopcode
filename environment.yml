@@ -1,6 +1,5 @@
 name: pyopcode
 channels:
-  - anaconda
   - conda-forge  # for boost
   - clinicalgraphics
 dependencies:
@@ -16,7 +15,3 @@ dependencies:
   - setuptools
   # tests
   - pytest =2.8*
-  - mock =1.3*
-  - pytest-mock =0.10*
-  - pytest-cov =2.2.1
-  - pytest-xdist =1.14

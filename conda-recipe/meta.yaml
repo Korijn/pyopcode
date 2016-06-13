@@ -33,4 +33,4 @@ test:
   imports:
   - pyopcode
   requires:
-  - pytest 2.9*
+  - pytest 2.8*
