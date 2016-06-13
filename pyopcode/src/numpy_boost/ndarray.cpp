@@ -10,7 +10,7 @@ defines numpy boost array types used
 #include <boost/range/irange.hpp>
 #include <boost/range/algorithm.hpp>
 
-#include <python.h>
+#include <Python.h>
 
 #include "numpy_boost_python.hpp"
 

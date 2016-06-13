@@ -8,7 +8,6 @@ build:
   - vc10               [win and py34]
   - vc14               [win and py35]
   number: 1
-  preserve_egg_dir: true
 package:
   name: pyopcode
   version: 0.1.9

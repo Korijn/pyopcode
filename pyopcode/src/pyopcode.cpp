@@ -33,8 +33,8 @@ private:
         interface.SetNbVertices(vertices.size());
         // this casting implicitly validates the input shapes and strides
         interface.SetPointers(
-            triangles.view<IceMaths::IndexedTriangle>().data(),
-            vertices .view<IceMaths::Point          >().data()
+            triangles.template view<IceMaths::IndexedTriangle>().data(),
+            vertices .template view<IceMaths::Point          >().data()
         );
         return interface;
     }
@@ -104,7 +104,7 @@ public:
         // wrap resulting pairs in numpy array
         const boost::array<int, 2> shape = {{boost::distance(pairs_range), 2}};
         ndarray<index_t, 2> pairs(shape);
-        boost::copy(pairs_range, pairs.view<IceCore::Pair>().begin());
+        boost::copy(pairs_range, pairs.template view<IceCore::Pair>().begin());
         return pairs;
     }
 
