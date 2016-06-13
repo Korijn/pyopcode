@@ -226,8 +226,8 @@ def _get_hg_info():
 
 
 def _get_git_info():
-    id = str(subprocess.check_output("git status").strip())
-    branch = str(subprocess.check_output("git branch").strip())
+    id = subprocess.check_output(["git", "status"]).decode('utf-8').strip()
+    branch = subprocess.check_output(["git", "branch"]).decode('utf-8').strip()
     return {
         'branch': branch,
         'id': id,
