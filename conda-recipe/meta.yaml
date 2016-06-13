@@ -31,3 +31,7 @@ source:
 test:
   imports:
   - pyopcode
+  commands:
+  - py.test --pyargs pyopcode
+  requires:
+  - pytest 2.9*
