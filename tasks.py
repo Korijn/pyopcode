@@ -47,9 +47,9 @@ def build(python=None):
     _print("Building your package now")
 
     sep = ' && '
-    # add all required channels
-    channels = sep.join('conda config --add channels ' + c for c in pkg_conf.get_channels())
-    command = channels + sep + "conda build conda-recipe --no-anaconda-upload --quiet"
+    # build with the required anaconda channels in the environment.yml
+    command = "conda build conda-recipe --no-anaconda-upload --quiet " +\
+              ' '.join(['-c {}'.format(c) for c in pkg_conf.get_channels()])
     if python is not None:
         command = command + ' --python ' + python
     if on_win32:
