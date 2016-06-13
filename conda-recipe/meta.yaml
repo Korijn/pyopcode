@@ -25,7 +25,6 @@ requirements:
   - numpy 1.10*
   - boost 1.6*
   - libgcc [linux]
-  - future
 source:
   path: ..
 test:
