@@ -53,7 +53,7 @@ install:
 # See https://github.com/scikit-learn/scikit-learn/blob/master/appveyor.yml for inspiration
 build_script:
   # There are so many dependencies for the invoke commands that it's easier to use the environment
-  - activate numpy_indexed
+  - activate pyopcode
   # build conda package; no upload
   - invoke build
 
