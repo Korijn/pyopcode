@@ -17,13 +17,13 @@ requirements:
   - numpy 1.10*
   - gcc 4.8.2 [linux]
   - cmake 3.5*
-  - boost 1.6*
+  - boost 1.61*
   - pyyaml 3.11*
   - setuptools
   run:
   - python
   - numpy 1.10*
-  - boost 1.6*
+  - boost 1.61*
   - libgcc [linux]
 source:
   path: ..
