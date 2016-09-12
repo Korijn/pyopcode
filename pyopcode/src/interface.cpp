@@ -32,10 +32,13 @@ BOOST_PYTHON_MODULE(_pyopcode)
     init_numpy();
 
     //register array types employed; needed to avoid runtime error
+    numpy_boost_python_register_type<index_t, 1>();
     numpy_boost_python_register_type<index_t, 2>();
     numpy_boost_python_register_type<real_t, 2>();
+//    numpy_boost_python_register_type<real_t, 3>();
 
     class_<model_t>("Model", init<ndarray<real_t, 2>, ndarray<index_t, 2> >())
+        .def("RayQuery", &model_t::RayQuery)
         ;
 
     class_<collision_t>("Collision", init<model_t&, model_t&>())

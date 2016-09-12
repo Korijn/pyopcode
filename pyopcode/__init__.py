@@ -2,7 +2,7 @@
 
 import os
 
-from _pyopcode import Model, Collision
+from pyopcode._pyopcode import Model, Collision
 
 __author__ = "Eelco Hoogendoorn"
 __license__ = "LGPL"

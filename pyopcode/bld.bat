@@ -7,7 +7,7 @@ set ARCH=64
 
 
 set BUILD_CONFIG=Release
-set CENV=C:\Users\Eelco\Miniconda2\envs\pyopcode
+set CENV=C:\Users\Eelco\Miniconda3\envs\pyopcode
 set SP_DIR=%CENV%\Lib\site-packages
 
 

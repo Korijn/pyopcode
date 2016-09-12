@@ -26,6 +26,28 @@ public:
         model       (init_model())
     {}
 
+    ndarray<index_t, 1> RayQuery(const ndarray<real_t, 2> rays) const {
+        // rays has shape [n_rays, 2, 3]
+        // returns first faceid or -1 in case of no hit
+        const ndarray<IceMaths::Ray, 1> _rays = rays.view<IceMaths::Ray>();
+        const boost::array<int, 1> shape = {{_rays.size()}};
+        ndarray<index_t> faces = ndarray<index_t>(shape);
+
+        Opcode::RayCollider RC = Opcode::RayCollider();
+        RC.SetFirstContact(false);
+        RC.SetTemporalCoherence(true);
+        RC.SetClosestHit(true);
+        RC.SetCulling(false);
+
+        static udword Cache;
+        Opcode::CollisionFaces CF;
+        RC.SetDestination(&CF);
+
+        for (index_t i=0; i < _rays.size(); i++)
+            faces[i] = (RC.Collide(_rays[i], model, 0, &Cache)) ? CF.GetFaces()[0].mFaceID : -1;
+        return faces;
+    }
+
 private:
     Opcode::MeshInterface init_interface() const {
         Opcode::MeshInterface interface;
