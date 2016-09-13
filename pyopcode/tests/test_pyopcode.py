@@ -78,5 +78,5 @@ def test_rays():
     mesh = pyopcode.Model(vertices, triangles)
 
     rays = np.random.normal(0, 1, (100, 2, 3)).reshape(-1, 6).astype(np.float32)
-    faces = mesh.RayQuery(rays)
+    faces = mesh.ray_query(rays)
     print(faces)
