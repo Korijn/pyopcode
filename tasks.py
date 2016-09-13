@@ -404,7 +404,7 @@ def release(yes=False):
         if os.path.exists(pkg_path):
             try:
                 run("anaconda upload {} --user {}".format(pkg_path, pkg_conf.ANACONDA_USER))
-                _tag_hg_revision("v{}".format(version))
+                _tag_git_revision("v{}".format(version))
                 return True
             except:
                 traceback.print_exc()
