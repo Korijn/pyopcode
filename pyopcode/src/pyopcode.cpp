@@ -31,7 +31,7 @@ public:
         // returns first faceid or -1 in case of no hit
         const ndarray<IceMaths::Ray, 1> _rays = rays.view<IceMaths::Ray>();
         const boost::array<int, 1> shape = {{_rays.size()}};
-        ndarray<index_t> faces = ndarray<index_t>(shape);
+        ndarray<index_t, 1> faces(shape);
 
         Opcode::RayCollider RC = Opcode::RayCollider();
         RC.SetFirstContact(false);
@@ -43,8 +43,11 @@ public:
         Opcode::CollisionFaces CF;
         RC.SetDestination(&CF);
 
-        for (index_t i=0; i < _rays.size(); i++)
-            faces[i] = (RC.Collide(_rays[i], model, 0, &Cache)) ? CF.GetFaces()[0].mFaceID : -1;
+        // would it be safe to release the GIL here? we only write to numpy buffer; no mutation of python datastructures
+        for (index_t i=0; i < _rays.size(); i++) {
+            bool status(RC.Collide(_rays[i], model, 0, &Cache));
+            faces[i] = RC.GetNbIntersections() ? CF.GetFaces()[0].mFaceID : -1;
+        }
         return faces;
     }
 

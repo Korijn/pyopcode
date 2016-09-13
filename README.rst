@@ -1,4 +1,4 @@
-|Build Status|
+|Build Status| |Build status|
 
 pyOPCODE
 ========================
@@ -15,8 +15,10 @@ Support for wrapping the raytracing/picking code is planned as well.
 
 In general; the hard part in making this package is getting the code to compile. Given that is does that, extending the interface should generally by simple.
 
-Support is planned for python 2.7, 3.5, windows, and linux
+Currently supported platforms are windows, linux, on both python 2.7 and 3.5
 
 
 .. |Build Status| image:: https://travis-ci.org/ClinicalGraphics/pyopcode.svg?branch=master
    :target: https://travis-ci.org/ClinicalGraphics/pyopcode
+.. |Build status| image:: https://ci.appveyor.com/api/projects/status/px6alq8csvoh0t19?svg=true
+   :target: https://ci.appveyor.com/project/clinicalgraphics/pyopcode

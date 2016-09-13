@@ -74,12 +74,9 @@ def test_GIL():
 
 
 def test_rays():
-
     vertices, triangles = triangle_soup(10)
     mesh = pyopcode.Model(vertices, triangles)
 
     rays = np.random.normal(0, 1, (100, 2, 3)).reshape(-1, 6).astype(np.float32)
     faces = mesh.RayQuery(rays)
     print(faces)
-
-test_rays()
