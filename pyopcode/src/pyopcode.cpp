@@ -29,7 +29,7 @@ public:
     ndarray<index_t, 1> ray_query(const ndarray<real_t, 2> rays) const {
         // rays has shape [n_rays, 2, 3]
         // returns first faceid or -1 in case of no hit
-        const ndarray<IceMaths::Ray, 1> _rays = rays.view<IceMaths::Ray>();
+        const ndarray<IceMaths::Ray, 1> _rays = rays.template view<IceMaths::Ray>();
         const boost::array<int, 1> shape = {{_rays.size()}};
         ndarray<index_t, 1> faces(shape);
 
