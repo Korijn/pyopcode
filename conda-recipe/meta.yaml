@@ -7,10 +7,10 @@ build:
   - vc9                [win and py27]
   - vc10               [win and py34]
   - vc14               [win and py35]
-  number: 2
+  number: 0
 package:
   name: pyopcode
-  version: 0.2.0
+  version: 0.3.dev0
 requirements:
   build:
   - python
