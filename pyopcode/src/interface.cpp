@@ -38,7 +38,7 @@ BOOST_PYTHON_MODULE(_pyopcode)
 //    numpy_boost_python_register_type<real_t, 3>();
 
     class_<model_t>("Model", init<ndarray<real_t, 2>, ndarray<index_t, 2> >())
-        .def("RayQuery", &model_t::RayQuery)
+        .def("ray_query", &model_t::ray_query)
         ;
 
     class_<collision_t>("Collision", init<model_t&, model_t&>())
