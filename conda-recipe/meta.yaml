@@ -1,36 +1,40 @@
-about:
-  home: hhttps://github.com/ClinicalGraphics/pyopcode
-  license: LGPL
-  summary: OPCODE collision detection wrapped library with numpy bindings
-build:
-  features:
-  - vc9                [win and py27]
-  - vc10               [win and py34]
-  - vc14               [win and py35]
-  number: 1
 package:
   name: pyopcode
   version: 0.3.3
+
+source:
+  path: ..
+
+build:
+  number: 3
+  features:
+  - vc9  # [win and py27]
+  - vc10  # [win and py34]
+  - vc14  # [win and py>=35]
+
 requirements:
   build:
   - python
-  - numpy 1.10*
-  - gcc 4.8.2 [linux]
-  - cmake 3.5*
-  - boost 1.61*
-  - pyyaml 3.11*
   - setuptools
+  - cmake
+  - numpy x.x
+  - boost >=1.61
+  - pyyaml >=3.10
+
   run:
   - python
-  - numpy 1.10*
-  - boost 1.61*
-  - libgcc [linux]
-source:
-  path: ..
+  - numpy x.x
+  - boost >=1.61
+
 test:
   commands:
-  - py.test --pyargs pyopcode
+    - py.test --pyargs pyopcode
   imports:
-  - pyopcode
+    - pyopcode
   requires:
-  - pytest 2.8*
+    - pytest >=3.0
+
+about:
+  home: https://github.com/ClinicalGraphics/pyopcode
+  license: LGPL-3.0
+  summary: OPCODE collision detection wrapped library with numpy bindings (mesh-mesh and mesh-ray)
