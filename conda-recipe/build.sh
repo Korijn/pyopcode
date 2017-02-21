@@ -2,21 +2,9 @@
 
 BUILD_CONFIG=Release
 
-
-PYTHON_INCLUDE="${PREFIX}/include/python${PY_VER}"
-if [ ! -d ${PYTHON_INCLUDE} ]; then
-    PYTHON_INCLUDE="${PREFIX}/include/python${PY_VER}m"
-fi
-
-PYTHON_LIBRARY_EXT="so"
-if [ `uname` = "Darwin" ] ; then
-    PYTHON_LIBRARY_EXT="dylib"
-fi
-
-PYTHON_LIBRARY="${PREFIX}/lib/libpython${PY_VER}.${PYTHON_LIBRARY_EXT}"
-if [ ! -f ${PYTHON_LIBRARY} ]; then
-    PYTHON_LIBRARY="${PREFIX}/lib/libpython${PY_VER}m.${PYTHON_LIBRARY_EXT}"
-fi
+# use globs to take into account various possible suffixes: m, u, d
+PYTHON_LIBRARY=`ls -d ${PREFIX}/lib/libpython* | head -n 1`
+PYTHON_INCLUDE=`ls -d ${PREFIX}/include/python* | head -n 1`
 
 cd pyopcode
 mkdir build
