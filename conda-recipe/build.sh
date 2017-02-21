@@ -10,10 +10,15 @@ cd pyopcode
 mkdir build
 cd build
 
+if [ `uname` = "Darwin" ]; then
+    # Specify same compiler as with which boost (1.61) is compiled
+    CXX_FLAGS="${CXX_FLAGS} -stdlib=libstdc++"
+fi
+
 cmake ../src \
     -Wno-dev \
     -DCMAKE_BUILD_TYPE=${BUILD_CONFIG} \
-    -DCMAKE_CXX_FLAGS="-Wreturn-type" \
+    -DCMAKE_CXX_FLAGS="${CXX_FLAGS} -Wreturn-type" \
     ${MACOSX_DEPLOYMENT_TARGET:+-DCMAKE_OSX_DEPLOYMENT_TARGET='10.9'} \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     -DPYTHON_INCLUDE_DIR:PATH=${PYTHON_INCLUDE} \
