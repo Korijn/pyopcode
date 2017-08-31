@@ -1,12 +1,12 @@
 package:
   name: pyopcode
-  version: 0.3.3
+  version: 0.3.4
 
 source:
   path: ..
 
 build:
-  number: 3
+  number: 0
   features:
   - vc9  # [win and py27]
   - vc10  # [win and py34]
