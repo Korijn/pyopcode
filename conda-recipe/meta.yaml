@@ -1,12 +1,12 @@
 package:
   name: pyopcode
-  version: 0.3.3
+  version: 0.3.4
 
 source:
   path: ..
 
 build:
-  number: 3
+  number: 0
   features:
   - vc9  # [win and py27]
   - vc10  # [win and py34]
@@ -17,13 +17,13 @@ requirements:
   - python
   - setuptools
   - cmake
-  - numpy 1.11.3
+  - numpy x.x
   - boost 1.61.0
   - pyyaml 3.12
 
   run:
   - python
-  - numpy 1.11.3
+  - numpy x.x
   - boost 1.61.0
 
 test:
